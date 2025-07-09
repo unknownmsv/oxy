@@ -1,0 +1,332 @@
+/* ===== Base Reset & Variables ===== */
+:root {
+  --primary: #ff88aa;
+  --secondary: #ffd580;
+  --accent: #baffc9;
+  --bg-dark: #1e1e1e;
+  --bg-medium: #262626;
+  --bg-light: #2d2d2d;
+  --text-light: #f0f0f0;
+  --text-medium: #dddddd;
+  --border-color: #444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Body & Typography ===== */
+body {
+  font-family: "JetBrains Mono", "Consolas", monospace;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Header & Navigation ===== */
+header {
+  background-color: var(--bg-medium);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: white !important;
+}
+
+.github-link:hover {
+  background-color: #ff7799;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: var(--secondary);
+  margin-bottom: 1.5rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: #ff7799;
+  transform: translateY(-2px);
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.btn.secondary:hover {
+  background-color: rgba(255, 136, 170, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ===== Main Content ===== */
+main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+section {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background-color: var(--bg-medium);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: var(--secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+h3 {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+p, li {
+  color: var(--text-medium);
+  margin-bottom: 1rem;
+}
+
+/* ===== Features Grid ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.feature-card {
+  background-color: var(--bg-light);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card i {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+}
+
+/* ===== Code Blocks ===== */
+pre {
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+code {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+/* ===== Terminal ===== */
+.terminal {
+  background-color: var(--bg-light);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.terminal-header {
+  background-color: #444;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.terminal-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-btn.red { background-color: #ff5f56; }
+.terminal-btn.yellow { background-color: #ffbd2e; }
+.terminal-btn.green { background-color: #27c93f; }
+
+.terminal-title {
+  color: var(--text-medium);
+  font-size: 0.8rem;
+}
+
+.terminal-body {
+  padding: 1.5rem;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.terminal-body p {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+/* ===== License Table ===== */
+.license-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.license-table thead {
+  background-color: var(--border-color);
+}
+
+.license-table th,
+.license-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.license-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== Footer ===== */
+footer {
+  background-color: var(--bg-medium);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.social-links a {
+  color: var(--text-light);
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: var(--primary);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .tagline {
+    font-size: 1.2rem;
+  }
+  
+  nav ul {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  main {
+    padding: 1rem;
+  }
+  
+  section {
+    padding: 1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
