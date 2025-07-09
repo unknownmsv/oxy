@@ -3,14 +3,309 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="DonutDB - Lightweight, encrypted column-oriented database engine written in Rust">
+  <meta name="keywords" content="database, Rust, encrypted, DonutDB, column-oriented">
+  <meta name="author" content="Unknownmsv (Sina Mousavi)">
   <title>📦 DonutDB</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../projects.css" />
+  <style>
+    /* استایل‌های اختصاصی برای این صفحه */
+    :root {
+      --primary: #88aaff;
+      --secondary: #baffc9;
+      --accent: #ffd580;
+      --bg-dark: #1e1e1e;
+      --bg-medium: #262626;
+      --bg-light: #2d2d2d;
+      --text-light: #ffffff;
+      --text-medium: #dddddd;
+      --text-dark: #1e1e1e;
+      --border-color: #444;
+    }
+
+    body {
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h2 {
+      color: var(--secondary);
+      margin: 2rem 0 1rem;
+      font-size: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    p, li {
+      color: var(--text-medium);
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    strong {
+      color: var(--text-light);
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    li:before {
+      content: "•";
+      color: var(--primary);
+      position: absolute;
+      left: 0;
+    }
+
+    pre {
+      background: var(--bg-light);
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.9rem;
+    }
+
+    code {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
+      background: rgba(255, 213, 128, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+      background: var(--bg-medium);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .roadmap-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .roadmap-item.completed:before {
+      content: "✓";
+      color: var(--secondary);
+    }
+
+    .roadmap-item.in-progress:before {
+      content: "⌛";
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1.5rem;
+      color: var(--text-medium);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* هایلایت کدها */
+    .token.keyword { color: #ff88aa; }
+    .token.string { color: #baffc9; }
+    .token.comment { color: #777; }
+    .token.punctuation { color: #ccc; }
+    .token.function { color: #88aaff; }
+
+    /* واکنش‌گرا */
+    @media (max-width: 768px) {
+      main {
+        padding: 0 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      section {
+        padding: 1rem;
+      }
+    }
+    .download-btn {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--bg-dark);
+  font-weight: bold;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.download-btn:hover {
+  background: var(--accent);
+  color: var(--bg-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.download-btn i {
+  margin-right: 0.5rem;
+}
+  </style>
 </head>
 <body>
   <main>
-    <h1>📦 DonutDB</h1>
-    <p>Local-first JSON-style database for local apps and bots.</p>
-    <a href="../index.html" style="color:#ffd580;">← Back to all projects</a>
+    <h1><i class="fas fa-database"></i> DonutDB</h1>
+    <p><strong>Lightweight, encrypted column-oriented database engine written in Rust.</strong></p>
+    <p>Created with ❤️ by <a href="https://github.com/unknownmsv">@unknownmsv</a></p>
+
+    <section>
+      <h2><i class="fas fa-star"></i> Features</h2>
+      <ul>
+        <li><strong>Encrypted Columnar Storage</strong> (AES-256)</li>
+        <li><strong>50MB Partitioning</strong> for performance</li>
+        <li><strong>Warp-based REST API</strong></li>
+        <li><strong>Schema & Index Management</strong></li>
+        <li><strong>Custom Language Mapping</strong></li>
+        <li><strong>Open-Source</strong> with Ethical Licensing</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><i class="fas fa-project-diagram"></i> Architecture</h2>
+      <pre><code>
+donutdb/
+ └── &lt;api_key&gt;/
+     ├── meta.ometa        # Metadata (Encrypted)
+     ├── schema.oschema    # Schema definitions (Encrypted)
+     ├── index.oidx        # Indexes (Encrypted)
+     └── data/
+         ├── id.odb.part1  # Partitioned data (Encrypted)
+         └── ...
+      </code></pre>
+    </section>
+
+    <section>
+      <h2><i class="fas fa-download"></i> Installation</h2>
+      <p><strong>Prerequisites:</strong> Rust, Git</p>
+      <pre><code>
+git clone https://github.com/unknownmsv/DonutDB.git
+cd DonutDB
+      </code></pre>
+
+      <p><strong>Config files:</strong></p>
+      <p><code>api_keys.json</code></p>
+      <pre><code>{
+  "keys": ["test-key"]
+}</code></pre>
+
+      <p><code>lang.json</code></p>
+      <pre><code>{
+  "1": "01", "2": "02", "a": "alice", "b": "bob"
+}</code></pre>
+
+      <p><strong>Build:</strong></p>
+      <pre><code>cargo build --release</code></pre>
+    </section>
+
+    <section>
+      <h2><i class="fas fa-terminal"></i> Usage</h2>
+      <p><strong>Start server:</strong></p>
+      <pre><code>target/release/donutdb</code></pre>
+
+      <p><strong>POST /api/store</strong></p>
+      <pre><code>{
+  "dataset": "users",
+  "slot": ["id", "username"],
+  "data": [["1", "alice"], ["2", "bob"]]
+}</code></pre>
+
+      <p><strong>GET /api/store/users/test-key</strong></p>
+      <pre><code>curl http://localhost:4040/api/store/users/test-key</code></pre>
+    </section>
+
+    <section>
+      <h2><i class="fas fa-file-contract"></i> License</h2>
+      <p>DonutDB License v3:</p>
+      <ul>
+        <li><strong>Attribution required</strong> (@unknownmsv)</li>
+        <li><strong>Modifications must be open-sourced</strong></li>
+        <li><strong>Commercial use must be disclosed</strong></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><i class="fas fa-road"></i> Roadmap</h2>
+      <ul>
+        <li class="roadmap-item completed">AES-256 full encryption</li>
+        <li class="roadmap-item completed">Indexing system</li>
+        <li class="roadmap-item in-progress">Compression layer</li>
+        <li class="roadmap-item in-progress">SQL-like query interface</li>
+        <li class="roadmap-item in-progress">Cross-platform binary packaging</li>
+      </ul>
+    </section>
+            <section>
+      <h2><i class="fas fa-download"></i> download Source code</h2>
+      <ul>
+        <a href="https://github.com/unknownmsv/DonutDB/archive/refs/tags/DonutDB.zip" class="download-btn" download>
+          <i class="fas fa-download"></i> Download DonutDB v1.0
+      </a>
+      </ul>
+    </section>
+
+    <section>
+      <h2><i class="fas fa-envelope"></i> Contact</h2>
+      <ul>
+        <li><i class="fab fa-github"></i> GitHub: <a href="https://github.com/unknownmsv">@unknownmsv</a></li>
+        <li><i class="fab fa-discord"></i> Discord: <code>@unknownmsv</code></li>
+      </ul>
+    </section>
+
+
+    <footer>
+      Built with <i class="fas fa-heart" style="color:#ff88aa;"></i> • <i class="fab fa-rust" style="color:#ff7043;"></i> Rust • <i class="fas fa-brain" style="color:#baffc9;"></i> Smartness • <i class="fas fa-donate" style="color:#ffd580;"></i> donutMSV
+    </footer>
   </main>
 </body>
 </html>

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍩 donutMSV Tic Tac Toe (AI Levels)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ff88aa;
+      --secondary: #ffd580;
+      --accent: #baffc9;
+      --blue-accent: #88aaff;
+      --bg-dark: #1e1e1e;
+      --bg-medium: #262626;
+      --bg-light: #2d2d2d;
+      --text-light: #ffffff;
+      --text-medium: #dddddd;
+      --border-color: #444;
+    }
+
+    body {
+      font-family: "JetBrains Mono", monospace;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-medium);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .game-container {
+      background-color: var(--bg-medium);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 136, 170, 0.1);
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .ai-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(30, 30, 30, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      z-index: 10;
+      display: none;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--primary);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      color: var(--secondary);
+      text-align: center;
+      min-height: 2rem;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .cell {
+      aspect-ratio: 1/1;
+      background-color: var(--bg-light);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cell:hover {
+      background-color: var(--bg-light);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cell.x {
+      color: var(--primary);
+    }
+
+    .cell.o {
+      color: var(--blue-accent);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: var(--text-dark);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff7799;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background-color: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .scoreboard {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 2rem;
+      background-color: var(--bg-light);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .score {
+      text-align: center;
+    }
+
+    .score h3 {
+      margin-bottom: 0.5rem;
+      color: var(--text-medium);
+    }
+
+    .score-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .x-score .score-value {
+      color: var(--primary);
+    }
+
+    .o-score .score-value {
+      color: var(--blue-accent);
+    }
+
+    .draws .score-value {
+      color: var(--secondary);
+    }
+
+    .ai-settings {
+      background-color: var(--bg-light);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .ai-settings label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-medium);
+    }
+
+    .ai-settings select {
+      background-color: var(--bg-medium);
+      color: var(--text-light);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem;
+      border-radius: 4px;
+      width: 100%;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .model-info {
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 3rem;
+      color: var(--text-medium);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .game-container {
+        padding: 1.5rem;
+      }
+      
+      .cell {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1><i class="fas fa-gamepad"></i> Tic Tac Toe</h1>
+  <p class="subtitle">Challenge AI at different levels<br>From easy to impossible!</p>
+
+  <div class="game-container">
+    <div class="ai-loading" id="ai-loading">
+      <div class="spinner"></div>
+      <p id="ai-thinking-text">AI is thinking...</p>
+    </div>
+
+    <div class="ai-settings">
+      <label for="ai-level">AI Difficulty:</label>
+      <select id="ai-level">
+        <option value="easy">Easy (Gemma 3:1b)</option>
+        <option value="medium" selected>Medium (Llama3.2:3b)</option>
+        <option value="hard">Hard (Deepseek-R1:8b)</option>
+        <option value="impossible">Impossible (GPT-4o)</option>
+      </select>
+      <div class="model-info" id="model-info">Using: Llama3.2:3b model</div>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score x-score">
+        <h3>X (You)</h3>
+        <div class="score-value" id="x-score">0</div>
+      </div>
+      <div class="score draws">
+        <h3>Draws</h3>
+        <div class="score-value" id="draws-score">0</div>
+      </div>
+      <div class="score o-score">
+        <h3>O (AI)</h3>
+        <div class="score-value" id="o-score">0</div>
+      </div>
+    </div>
+
+    <div class="status" id="status">Your turn (X)</div>
+    
+    <div class="board" id="board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    
+    <div class="controls">
+      <button id="reset-btn"><i class="fas fa-sync-alt"></i> Reset Game</button>
+      <button id="new-game-btn"><i class="fas fa-plus-circle"></i> New Game</button>
+    </div>
+  </div>
+
+  <footer>
+    Made with <i class="fas fa-heart" style="color: var(--primary);"></i> by donutMSV | Powered by Ollama & GPT-4o
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const board = document.getElementById('board');
+      const cells = document.querySelectorAll('.cell');
+      const status = document.getElementById('status');
+      const resetBtn = document.getElementById('reset-btn');
+      const newGameBtn = document.getElementById('new-game-btn');
+      const xScoreEl = document.getElementById('x-score');
+      const oScoreEl = document.getElementById('o-score');
+      const drawsScoreEl = document.getElementById('draws-score');
+      const aiLoading = document.getElementById('ai-loading');
+      const aiThinkingText = document.getElementById('ai-thinking-text');
+      const aiLevelSelect = document.getElementById('ai-level');
+      const modelInfo = document.getElementById('model-info');
+      
+      let boardState = ['', '', '', '', '', '', '', '', ''];
+      let currentPlayer = 'X';
+      let gameActive = true;
+      let scores = { x: 0, o: 0, draws: 0 };
+      let aiLevel = 'medium';
+      
+      const winningConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+        [0, 4, 8], [2, 4, 6]             // diagonals
+      ];
+
+      // مدل‌های مختلف AI
+      const aiModels = {
+        easy: {
+          name: "Gemma 3:1b",
+          description: "Fast but less strategic",
+          thinkTime: 800
+        },
+        medium: {
+          name: "Llama3.2:3b",
+          description: "Balanced strategy",
+          thinkTime: 1200
+        },
+        hard: {
+          name: "Deepseek-R1:8b",
+          description: "Advanced tactics",
+          thinkTime: 1500
+        },
+        impossible: {
+          name: "GPT-4o",
+          description: "Nearly unbeatable",
+          thinkTime: 2000
+        }
+      };
+      
+      // Initialize the game
+      function initGame() {
+        boardState = ['', '', '', '', '', '', '', '', ''];
+        currentPlayer = 'X';
+        gameActive = true;
+        updateStatus(`Your turn (${currentPlayer})`);
+        updateModelInfo();
+        
+        cells.forEach(cell => {
+          cell.classList.remove('x', 'o');
+          cell.textContent = '';
+        });
+      }
+      
+      // Update model info display
+      function updateModelInfo() {
+        const model = aiModels[aiLevel];
+        modelInfo.textContent = `Using: ${model.name} (${model.description})`;
+      }
+      
+      // Handle cell click
+      async function handleCellClick(e) {
+        const clickedCell = e.target;
+        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+        
+        if (boardState[clickedCellIndex] !== '' || !gameActive || currentPlayer !== 'X') return;
+        
+        // Player move
+        makeMove(clickedCell, clickedCellIndex, currentPlayer);
+        
+        // Check for win or draw
+        if (checkWin()) {
+          endGame(false);
+          return;
+        } else if (checkDraw()) {
+          endGame(true);
+          return;
+        }
+        
+        // Switch to AI player
+        currentPlayer = 'O';
+        updateStatus(`${aiModels[aiLevel].name} is thinking...`);
+        disableBoard();
+        
+        // AI move
+        try {
+          const aiMoveIndex = await getAIMove();
+          if (aiMoveIndex !== null && gameActive) {
+            const aiCell = document.querySelector(`[data-index="${aiMoveIndex}"]`);
+            makeMove(aiCell, aiMoveIndex, currentPlayer);
+            
+            if (checkWin()) {
+              endGame(false);
+            } else if (checkDraw()) {
+              endGame(true);
+            } else {
+              currentPlayer = 'X';
+              updateStatus(`Your turn (${currentPlayer})`);
+            }
+          }
+        } catch (error) {
+          console.error('AI Error:', error);
+          updateStatus('AI failed, please try again');
+          currentPlayer = 'X';
+        } finally {
+          enableBoard();
+        }
+      }
+      
+      // Get AI move based on selected level
+      async function getAIMove() {
+        const model = aiModels[aiLevel];
+        aiThinkingText.textContent = `${model.name} is thinking...`;
+        
+        // Simulate different AI behaviors based on level
+        switch(aiLevel) {
+          case 'easy': // Gemma 3:1b - mostly random with some strategy
+            return getGemmaMove();
+          case 'medium': // Llama3.2:3b - balanced strategy
+            return getLlamaMove();
+          case 'hard': // Deepseek-R1:8b - advanced strategy
+            return getDeepseekMove();
+          case 'impossible': // GPT-4o - nearly perfect play
+            return getGPT4Move();
+          default:
+            return getRandomMove();
+        }
+      }
+      
+      // Easy level (Gemma 3:1b)
+      async function getGemmaMove() {
+        await simulateThinking(aiModels.easy.thinkTime);
+        
+        // 60% random, 40% basic strategy
+        if (Math.random() < 0.6) {
+          return getRandomMove();
+        } else {
+          return findBasicStrategicMove();
+        }
+      }
+      
+      // Medium level (Llama3.2:3b)
+      async function getLlamaMove() {
+        await simulateThinking(aiModels.medium.thinkTime);
+        
+        // Check for immediate win or block
+        const winMove = findWinningMove('O');
+        if (winMove !== null) return winMove;
+        
+        const blockMove = findWinningMove('X');
+        if (blockMove !== null) return blockMove;
+        
+        // 70% strategic, 30% random
+        if (Math.random() < 0.7) {
+          return findBasicStrategicMove();
+        } else {
+          return getRandomMove();
+        }
+      }
+      
+      // Hard level (Deepseek-R1:8b)
+      async function getDeepseekMove() {
+        await simulateThinking(aiModels.hard.thinkTime);
+        
+        // Check for immediate win or block
+        const winMove = findWinningMove('O');
+        if (winMove !== null) return winMove;
+        
+        const blockMove = findWinningMove('X');
+        if (blockMove !== null) return blockMove;
+        
+        // Advanced strategy (forks, etc)
+        const strategicMove = findAdvancedStrategicMove();
+        if (strategicMove !== null) return strategicMove;
+        
+        return getRandomMove();
+      }
+      
+      // Impossible level (GPT-4o)
+      async function getGPT4Move() {
+        await simulateThinking(aiModels.impossible.thinkTime);
+        
+        // Perfect play using minimax algorithm
+        return findBestMinimaxMove();
+      }
+      
+      // Simulate AI thinking time
+      function simulateThinking(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+      }
+      
+      // Find basic strategic move (center, corners, edges)
+      function findBasicStrategicMove() {
+        // Prefer center
+        if (boardState[4] === '') return 4;
+        
+        // Then corners
+        const corners = [0, 2, 6, 8];
+        const emptyCorners = corners.filter(index => boardState[index] === '');
+        if (emptyCorners.length > 0) {
+          return emptyCorners[Math.floor(Math.random() * emptyCorners.length)];
+        }
+        
+        // Then edges
+        const edges = [1, 3, 5, 7];
+        const emptyEdges = edges.filter(index => boardState[index] === '');
+        if (emptyEdges.length > 0) {
+          return emptyEdges[Math.floor(Math.random() * emptyEdges.length)];
+        }
+        
+        return null;
+      }
+      
+      // Find advanced strategic move (forks, etc)
+      function findAdvancedStrategicMove() {
+        // Try to create a fork (two ways to win)
+        const forkMove = findForkMove('O');
+        if (forkMove !== null) return forkMove;
+        
+        // Block opponent's fork
+        const blockForkMove = findForkMove('X');
+        if (blockForkMove !== null) return blockForkMove;
+        
+        return findBasicStrategicMove();
+      }
+      
+      // Find a fork opportunity
+      function findForkMove(player) {
+        // This is a simplified fork detection
+        // In a real implementation you'd need more sophisticated analysis
+        const emptyCells = boardState.map((cell, index) => cell === '' ? index : null).filter(val => val !== null);
+        
+        for (let move of emptyCells) {
+          // Simulate this move
+          boardState[move] = player;
+          
+          // Count how many winning opportunities this creates
+          let winCount = 0;
+          for (let condition of winningConditions) {
+            const [a, b, c] = condition;
+            if ((boardState[a] === player && boardState[b] === player && boardState[c] === '') ||
+                (boardState[a] === player && boardState[c] === player && boardState[b] === '') ||
+                (boardState[b] === player && boardState[c] === player && boardState[a] === '')) {
+              winCount++;
+            }
+          }
+          
+          // Undo simulation
+          boardState[move] = '';
+          
+          if (winCount >= 2) {
+            return move;
+          }
+        }
+        
+        return null;
+      }
+      
+      // Minimax algorithm for perfect play
+      function findBestMinimaxMove() {
+        let bestScore = -Infinity;
+        let bestMove = null;
+        
+        const emptyCells = boardState.map((cell, index) => cell === '' ? index : null).filter(val => val !== null);
+        
+        for (let move of emptyCells) {
+          boardState[move] = 'O';
+          const score = minimax(boardState, 0, false);
+          boardState[move] = '';
+          
+          if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
+          }
+        }
+        
+        return bestMove;
+      }
+      
+      // Minimax helper function
+      function minimax(board, depth, isMaximizing) {
+        // Check terminal states
+        if (checkWinFor('O')) return 10 - depth;
+        if (checkWinFor('X')) return depth - 10;
+        if (checkDraw()) return 0;
+        
+        if (isMaximizing) {
+          let bestScore = -Infinity;
+          for (let i = 0; i < 9; i++) {
+            if (board[i] === '') {
+              board[i] = 'O';
+              const score = minimax(board, depth + 1, false);
+              board[i] = '';
+              bestScore = Math.max(score, bestScore);
+            }
+          }
+          return bestScore;
+        } else {
+          let bestScore = Infinity;
+          for (let i = 0; i < 9; i++) {
+            if (board[i] === '') {
+              board[i] = 'X';
+              const score = minimax(board, depth + 1, true);
+              board[i] = '';
+              bestScore = Math.min(score, bestScore);
+            }
+          }
+          return bestScore;
+        }
+      }
+      
+      // Check win for specific player
+      function checkWinFor(player) {
+        return winningConditions.some(condition => {
+          return condition.every(index => {
+            return boardState[index] === player;
+          });
+        });
+      }
+      
+      // Find winning move for player
+      function findWinningMove(player) {
+        for (let condition of winningConditions) {
+          const [a, b, c] = condition;
+          if (boardState[a] === player && boardState[b] === player && boardState[c] === '') return c;
+          if (boardState[a] === player && boardState[c] === player && boardState[b] === '') return b;
+          if (boardState[b] === player && boardState[c] === player && boardState[a] === '') return a;
+        }
+        return null;
+      }
+      
+      // Get random move
+      function getRandomMove() {
+        const emptyCells = boardState.map((cell, index) => cell === '' ? index : null).filter(val => val !== null);
+        return emptyCells.length > 0 ? emptyCells[Math.floor(Math.random() * emptyCells.length)] : null;
+      }
+      
+      // Make a move
+      function makeMove(cellElement, cellIndex, player) {
+        boardState[cellIndex] = player;
+        cellElement.textContent = player;
+        cellElement.classList.add(player.toLowerCase());
+      }
+      
+      // Check for win
+      function checkWin() {
+        return winningConditions.some(condition => {
+          return condition.every(index => {
+            return boardState[index] === currentPlayer;
+          });
+        });
+      }
+      
+      // Check for draw
+      function checkDraw() {
+        return boardState.every(cell => cell !== '');
+      }
+      
+      // End the game
+      function endGame(isDraw) {
+        gameActive = false;
+        
+        if (isDraw) {
+          updateStatus('Game ended in a draw!');
+          scores.draws++;
+          drawsScoreEl.textContent = scores.draws;
+        } else {
+          const winner = currentPlayer === 'X' ? 'You won!' : `${aiModels[aiLevel].name} won!`;
+          updateStatus(winner);
+          
+          if (currentPlayer === 'X') {
+            scores.x++;
+            xScoreEl.textContent = scores.x;
+          } else {
+            scores.o++;
+            oScoreEl.textContent = scores.o;
+          }
+        }
+      }
+      
+      // Update status message
+      function updateStatus(message) {
+        status.textContent = message;
+      }
+      
+      // Disable board during AI thinking
+      function disableBoard() {
+        cells.forEach(cell => cell.style.pointerEvents = 'none');
+        resetBtn.disabled = true;
+        newGameBtn.disabled = true;
+        aiLevelSelect.disabled = true;
+        showAILoading();
+      }
+      
+      // Enable board after AI move
+      function enableBoard() {
+        cells.forEach(cell => cell.style.pointerEvents = 'auto');
+        resetBtn.disabled = false;
+        newGameBtn.disabled = false;
+        aiLevelSelect.disabled = false;
+        hideAILoading();
+      }
+      
+      // Show AI loading indicator
+      function showAILoading() {
+        aiLoading.style.display = 'flex';
+      }
+      
+      // Hide AI loading indicator
+      function hideAILoading() {
+        aiLoading.style.display = 'none';
+      }
+      
+      // Reset the current game
+      function resetGame() {
+        initGame();
+      }
+      
+      // Start a new game (reset scores)
+      function newGame() {
+        scores = { x: 0, o: 0, draws: 0 };
+        xScoreEl.textContent = '0';
+        oScoreEl.textContent = '0';
+        drawsScoreEl.textContent = '0';
+        initGame();
+      }
+      
+      // Event listeners
+      cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+      resetBtn.addEventListener('click', resetGame);
+      newGameBtn.addEventListener('click', newGame);
+      aiLevelSelect.addEventListener('change', () => {
+        aiLevel = aiLevelSelect.value;
+        updateModelInfo();
+        if (confirm('Changing AI level will reset the current game. Continue?')) {
+          initGame();
+        }
+      });
+      
+      // Initialize the game
+      initGame();
+    });
+  </script>
+</body>
+</html>
