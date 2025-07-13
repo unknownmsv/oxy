@@ -1,4 +1,3 @@
-<!-- force redeploy -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +7,11 @@
   <meta name="keywords" content="programming, projects, O₂lang, DonutDB, AI, terminal">
   <meta name="author" content="Unknownmsv (Sina Mousavi)">
   <title>🍩 donutMSV Projects</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="projects.css" />
+  <link rel="stylesheet" href="Projects.css">
 </head>
 <body>
+  <canvas id="space-canvas"></canvas>
+
   <header>
     <div class="header-content">
       <h1>🍩 donutMSV</h1>
@@ -20,7 +20,8 @@
           <li><a href="#projects">Projects</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="https://github.com/unknownmsv" target="_blank" class="github-btn">
-            <i class="fab fa-github"></i> GitHub
+            <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+            GitHub
           </a></li>
         </ul>
       </nav>
@@ -37,131 +38,77 @@
           <a href="#about" class="btn secondary">About Me</a>
         </div>
       </div>
-      <div class="hero-illustration">
-        <div class="donut"></div>
-        <div class="terminal-window"></div>
-        <div class="code-bracket"></div>
-      </div>
     </section>
 
     <section id="projects" class="projects-section">
-      <h2 class="section-title"><i class="fas fa-code-branch"></i> My Projects</h2>
+      <h2 class="section-title">
+        <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path fill-rule="evenodd" d="M1.646 3.646a.5.5 0 0 1 .708 0L4 5.293l1.646-1.647a.5.5 0 1 1 .708.708L4.707 6l1.647 1.646a.5.5 0 0 1-.708.708L4 6.707l-1.646 1.647a.5.5 0 0 1-.708-.708L3.293 6 1.646 4.354a.5.5 0 0 1 0-.708zm4.75 0a.5.5 0 0 1 .708 0L8 5.293l1.646-1.647a.5.5 0 1 1 .708.708L8.707 6l1.647 1.646a.5.5 0 0 1-.708.708L8 6.707l-1.646 1.647a.5.5 0 0 1-.708-.708L7.293 6 5.646 4.354a.5.5 0 0 1 0-.708zM10 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L10 9.293V5.5A.5.5 0 0 1 10 5z"></path></svg>
+        My Projects
+      </h2>
       <div class="projects-grid">
-        <!-- Project 1 -->
-        <div class="project-card">
-          <div class="project-icon" style="background-color: #ff88aa26;">
-            <i class="fas fa-brain" style="color: #ff88aa;"></i>
-          </div>
+        <div class="project-card glass-panel">
+          <div class="project-icon" style="background-color: #ff88aa26;"><svg style="color: #ff88aa;" fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8.5 0a.5.5 0 0 1 .5.5V3a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5Z"></path><path d="M0 8a.5.5 0 0 1 .5-.5h2.5a.5.5 0 0 1 0 1h-2.5A.5.5 0 0 1 0 8Zm15 0a.5.5 0 0 1-.5.5h-2.5a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .5.5ZM4.879 4.121a.5.5 0 0 1 .707 0l1.768 1.767a.5.5 0 0 1-.707.708L4.879 4.828a.5.5 0 0 1 0-.707Zm5.456-.707a.5.5 0 0 1 0 .707L8.568 5.879a.5.5 0 0 1-.707-.707l1.768-1.768a.5.5 0 0 1 .707 0ZM8 10a.5.5 0 0 1 .5.5v2.5a.5.5 0 0 1-1 0v-2.5a.5.5 0 0 1 .5-.5Zm-3.879-3.879a.5.5 0 0 1 .707 0l1.768 1.767a.5.5 0 0 1-.708.708L4.12 6.879a.5.5 0 0 1 0-.707Zm5.456-.707a.5.5 0 0 1 0 .707L8.568 8.621a.5.5 0 0 1-.707-.707l1.768-1.768a.5.5 0 0 1 .707 0ZM10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"></path></svg></div>
           <h3>🧠 O₂lang</h3>
           <p>Custom real-time compiler language made with Python + love.</p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">Compiler</span>
-          </div>
-          <a href="projects/o2lang.html" class="project-link">
-            View Details <i class="fas fa-arrow-right"></i>
-          </a>
+          <div class="project-tags"><span class="tag">Python</span><span class="tag">Compiler</span></div>
+          <a href="#" class="project-link">View Details →</a>
         </div>
-
-        <!-- Project 2 -->
-        <div class="project-card">
-          <div class="project-icon" style="background-color: #baffc926;">
-            <i class="fas fa-database" style="color: #baffc9;"></i>
-          </div>
+        <div class="project-card glass-panel">
+          <div class="project-icon" style="background-color: #baffc926;"><svg style="color: #baffc9;" fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8.5,1.1h-1A6.4,6.4,0,0,0,1.1,7.5v1A6.4,6.4,0,0,0,7.5,14.9h1A6.4,6.4,0,0,0,14.9,8.5v-1A6.4,6.4,0,0,0,8.5,1.1Zm5.4,7.4A5.4,5.4,0,0,1,8.5,13.9h-1A5.4,5.4,0,0,1,2.1,8.5v-1A5.4,5.4,0,0,1,7.5,2.1h1A5.4,5.4,0,0,1,13.9,7.5Z"></path><path d="M8,4.4a3.6,3.6,0,1,0,3.6,3.6A3.6,3.6,0,0,0,8,4.4Zm0,6.2A2.6,2.6,0,1,1,10.6,8,2.6,2.6,0,0,1,8,10.6Z"></path></svg></div>
           <h3>📦 DonutDB</h3>
           <p>Simple, local-first database with JSON-style storage and fun API.</p>
-          <div class="project-tags">
-            <span class="tag">Database</span>
-            <span class="tag">Node.js</span>
-          </div>
-          <a href="projects/donutdb.html" class="project-link">
-            View Details <i class="fas fa-arrow-right"></i>
-          </a>
+          <div class="project-tags"><span class="tag">Database</span><span class="tag">Node.js</span></div>
+          <a href="projects/donutdb.html" class="project-link">View Details →</a>
         </div>
-
-        <!-- Project 3 -->
-        <div class="project-card">
-          <div class="project-icon" style="background-color: #ffd58026;">
-            <i class="fas fa-robot" style="color: #ffd580;"></i>
-          </div>
+        <div class="project-card glass-panel">
+          <div class="project-icon" style="background-color: #ffd58026;"><svg style="color: #ffd580;" fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M11.5 6a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.45.242.03.041.04.039.042.032.042.024.044.018.044.01.044.004.045-.002.044-.006.044-.01.043-.014.043-.02.042-.025.041-.03.04-.035.039-.04.037-.043.036-.046.034-.048.033-.05.031-.054.03-.056.028-.058.027-.06.026-.062.024-.064.023-.066.021-.068.02-.07.018-.072.017-.074.015-.076.014-.078.012-.08.011-.082.01-.084.008-.086.007-.088.006-.09.004-.092.003-.094.002-.096.001a.5.5 0 0 1 0 .998.04.04 0 0 0-.044.006l-.044.01-.043.014-.043.02-.042.025-.041.03-.04.035-.039.04-.037.043-.036.046-.034.048-.033.05-.031.054-.03.056-.028.058-.027.06-.026.062-.024.064-.023.066-.021.068-.02.07-.018.072-.017.074-.015.076-.014.078-.012.08-.011.082-.01.084-.008.086-.007.088-.006.09-.004.092-.003.094-.002.096-.001a.5.5 0 0 1 0-.998l.096-.001.094-.002.092-.003.09-.004.088-.006.086-.007.084-.008.082-.01.08-.011.078-.012.076-.014.074-.015.072-.017.07-.018.068-.02.066-.021.064-.023.062-.024.06-.026.058-.027.056-.028.054-.03.05-.031.048-.033.046-.034.043-.036.04-.037.039-.039.035-.04.03-.041.025-.042.02-.043.014-.043.01-.044.006-.045.002-.044Z"></path><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5Zm10.5 2H2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"></path></svg></div>
           <h3>🤖 oAI</h3>
           <p>Experimental local AI assistant with OpenAI + Ollama hybrid interface.</p>
-          <div class="project-tags">
-            <span class="tag">AI</span>
-            <span class="tag">Python</span>
-          </div>
-          <a href="projects/oai.html" class="project-link">
-            View Details <i class="fas fa-arrow-right"></i>
-          </a>
+          <div class="project-tags"><span class="tag">AI</span><span class="tag">Python</span></div>
+          <a href="#" class="project-link">View Details →</a>
         </div>
-
-        <!-- Project 4 -->
-        <div class="project-card">
-          <div class="project-icon" style="background-color: #88aaff26;">
-            <i class="fas fa-terminal" style="color: #88aaff;"></i>
-          </div>
+        <div class="project-card glass-panel">
+          <div class="project-icon" style="background-color: #88aaff26;"><svg style="color: #88aaff;" fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M6 3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 3zM2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"></path><path d="M6.854 5.146a.5.5 0 0 1 0 .708L5.707 7l1.147 1.146a.5.5 0 0 1-.708.708l-1.5-1.5a.5.5 0 0 1 0-.708l1.5-1.5a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L10.293 7l-1.147 1.146a.5.5 0 0 0 .708.708l1.5-1.5a.5.5 0 0 0 0-.708l-1.5-1.5a.5.5 0 0 0-.708 0z"></path></svg></div>
           <h3>🧮 DonutTerminal</h3>
           <p>Terminal UI for managing your Donut projects, bots, and language compiler.</p>
-          <div class="project-tags">
-            <span class="tag">CLI</span>
-            <span class="tag">Rust</span>
-          </div>
-          <a href="projects/donutterminal.html" class="project-link">
-            View Details <i class="fas fa-arrow-right"></i>
-          </a>
+          <div class="project-tags"><span class="tag">CLI</span><span class="tag">Rust</span></div>
+          <a href="#" class="project-link">View Details →</a>
         </div>
-
-        <!-- Project 5 -->
-        <div class="project-card">
-          <div class="project-icon" style="background-color: #ff88ff26;">
-            <i class="fas fa-laptop-code" style="color: #ff88ff;"></i>
-          </div>
+        <div class="project-card glass-panel">
+          <div class="project-icon" style="background-color: #ff88ff26;"><svg style="color: #ff88ff;" fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zM2.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-11z"></path><path d="M2 13h12v1H2v-1z"></path></svg></div>
           <h3>🌐 oxygenOS (idea)</h3>
           <p>A micro-terminal operating system for devs who live in Termux 🌌</p>
-          <div class="project-tags">
-            <span class="tag">OS</span>
-            <span class="tag">Concept</span>
-          </div>
-          <a href="projects/oxygenos.html" class="project-link">
-            View Details <i class="fas fa-arrow-right"></i>
-          </a>
+          <div class="project-tags"><span class="tag">OS</span><span class="tag">Concept</span></div>
+          <a href="#" class="project-link">View Details →</a>
         </div>
-
-        <!-- Coming Soon Card -->
-        <div class="project-card coming-soon">
-          <div class="project-icon" style="background-color: #1e1e1e;">
-            <i class="fas fa-question" style="color: #666;"></i>
-          </div>
+        <div class="project-card glass-panel coming-soon">
+          <div class="project-icon" style="background-color: #333;"><svg style="color: #888;" fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path><path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"></path></svg></div>
           <h3>🔜 Next Project?</h3>
           <p>What should I build next? Maybe your idea?</p>
-          <div class="project-tags">
-            <span class="tag">Idea</span>
-            <span class="tag">Coming Soon</span>
-          </div>
-          <a href="mailto:your@email.com" class="project-link">
-            Suggest Idea <i class="fas fa-envelope"></i>
-          </a>
+          <div class="project-tags"><span class="tag">Idea</span><span class="tag">Coming Soon</span></div>
+          <a href="mailto:your@email.com" class="project-link">Suggest Idea →</a>
         </div>
       </div>
     </section>
 
     <section id="about" class="about-section">
-      <div class="about-content">
-        <h2 class="section-title"><i class="fas fa-user-astronaut"></i> About Me</h2>
-        <div class="about-card">
-          <div class="about-text">
-            <h3>Unknownmsv (Sina Mousavi)</h3>
-            <p>Creative developer who loves building tools, languages, and systems that make coding more fun and accessible.</p>
-            <p>When I'm not coding, you can find me eating donuts, drinking coffee, or thinking about the next crazy project.</p>
-            <div class="social-links">
-              <a href="https://github.com/unknownmsv" target="_blank"><i class="fab fa-github"></i></a>
-              <a href="https://x.com/unknownmsv" target="_blank"><i class="fab fa-twitter"></i></a>
-              <a href="mailto:info@unknownmsv.ir"><i class="fas fa-envelope"></i></a>
-            </div>
+      <h2 class="section-title">
+        <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M11.297 5.055a.5.5 0 0 1 .14.395l-.38 3.385a.5.5 0 0 1-.98.17l-.38-3.385a.5.5 0 0 1 .52-.585h.28a.5.5 0 0 1 .395.14zM8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.5-12.5a.5.5 0 0 1-1 0V3a.5.5 0 0 1 1 0v.5z"></path></svg>
+        About Me
+      </h2>
+      <div class="about-card glass-panel">
+        <div class="about-text">
+          <h3>Unknownmsv (Sina Mousavi)</h3>
+          <p>Creative developer who loves building tools, languages, and systems that make coding more fun and accessible.</p>
+          <p>When I'm not coding, you can find me eating donuts, drinking coffee, or thinking about the next crazy project.</p>
+          <div class="social-links">
+            <a href="https://github.com/unknownmsv" target="_blank"><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a>
+            <a href="https://x.com/unknownmsv" target="_blank"><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-1.602 12.954h1.849L5.42 2.165H3.439l7.563 11.539Z"></path></svg></a>
+            <a href="mailto:info@unknownmsv.ir"><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"></path></svg></a>
           </div>
-          <div class="about-image">
-            <div class="avatar-placeholder"></div>
-          </div>
+        </div>
+        <div class="about-image">
+          <div class="avatar-placeholder"></div>
         </div>
       </div>
     </section>
@@ -177,5 +124,7 @@
       </div>
     </div>
   </footer>
+  <script src="projects.js">
+  </script>
 </body>
-</html> 
+</html>

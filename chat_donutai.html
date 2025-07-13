@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🤖 Chat with DonutAI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3a86ff;
+      --primary-dark: #2667cc;
+      --secondary: #8338ec;
+      --accent: #06d6a0;
+      --bg-dark: #0a0a12;
+      --bg-medium: #121220;
+      --bg-light: #1a1a2e;
+      --text-light: #f8f9fa;
+      --text-medium: #adb5bd;
+      --border-color: #2a2a3a;
+      --user-bubble: #3a86ff;
+      --bot-bubble: #2a2a3a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'JetBrains Mono', 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
+    }
+
+    .model-selector {
+      position: relative;
+    }
+
+    .model-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-family: inherit;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .model-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .model-dropdown {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: var(--bg-light);
+      border-radius: 8px;
+      padding: 0.5rem 0;
+      margin-top: 0.5rem;
+      min-width: 200px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      display: none;
+    }
+
+    .model-dropdown.show {
+      display: block;
+    }
+
+    .model-option {
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .model-option:hover {
+      background: var(--bg-medium);
+    }
+
+    .model-option i {
+      color: var(--accent);
+      width: 20px;
+      text-align: center;
+    }
+
+    .model-option.active {
+      background: var(--bg-medium);
+      color: var(--primary);
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 0.8rem 1.2rem;
+      border-radius: 18px;
+      line-height: 1.5;
+      position: relative;
+      animation: fadeIn 0.3s ease-out;
+      word-wrap: break-word;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: var(--user-bubble);
+      color: white;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 12px rgba(58, 134, 255, 0.2);
+    }
+
+    .bot {
+      align-self: flex-start;
+      background-color: var(--bot-bubble);
+      color: var(--text-light);
+      border-bottom-left-radius: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .bot-model-tag {
+      font-size: 0.7rem;
+      color: var(--text-medium);
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .bot-model-tag i {
+      color: var(--accent);
+    }
+
+    .chat-input-container {
+      padding: 1rem;
+      background-color: var(--bg-light);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 0.8rem 1.2rem;
+      border: none;
+      border-radius: 24px;
+      background-color: var(--bg-medium);
+      color: var(--text-light);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      box-shadow: inset 0 0 0 1px var(--border-color);
+      transition: all 0.3s ease;
+      resize: none;
+      height: 50px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .chat-input:focus {
+      box-shadow: inset 0 0 0 2px var(--primary);
+    }
+
+    .send-button {
+      padding: 0 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .send-button:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(58, 134, 255, 0.3);
+    }
+
+    .send-button:active {
+      transform: translateY(0);
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 0.3rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--text-medium);
+      border-radius: 50%;
+      animation: typingAnimation 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingAnimation {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+
+    /* اسکرول بار سفارشی */
+    .chat-box::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-box::-webkit-scrollbar-track {
+      background: var(--bg-medium);
+    }
+
+    .chat-box::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 4px;
+    }
+
+    .chat-input::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-input::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 3px;
+    }
+
+    /* واکنش‌گرا */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 0.8rem;
+      }
+      
+      .logo {
+        font-size: 1rem;
+      }
+      
+      .message {
+        max-width: 90%;
+      }
+      
+      .chat-input-container {
+        padding: 0.8rem;
+        flex-direction: column;
+      }
+      
+      .send-button {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-robot"></i>
+        <span>DonutAI Assistant</span>
+      </div>
+      
+      <div class="model-selector">
+        <button class="model-btn" id="model-btn">
+          <i class="fas fa-brain"></i>
+          <span id="current-model">GPT-4o</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        
+        <div class="model-dropdown" id="model-dropdown">
+          <div class="model-option active" data-model="gpt-4o">
+            <i class="fas fa-star"></i>
+            <span>GPT-4o</span>
+            <small>(قوی‌ترین)</small>
+          </div>
+          <div class="model-option" data-model="gpt-4.1-mini">
+            <i class="fas fa-bolt"></i>
+            <span>GPT-4.1 Mini</span>
+            <small>(تعادلی)</small>
+          </div>
+          <div class="model-option" data-model="gpt-3.5-turbo">
+            <i class="fas fa-rocket"></i>
+            <span>GPT-3.5 Turbo</span>
+            <small>(سریع)</small>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="chat-container">
+      <div class="chat-box" id="chat-box">
+        <div class="message bot">
+          سلام! من DonutAI هستم. 🤖 چطور می‌تونم کمکتون کنم؟
+          <div class="bot-model-tag">
+            <i class="fas fa-microchip"></i>
+            <span>مدل: GPT-4o</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-container">
+        <textarea class="chat-input" id="user-input" placeholder="پیام خود را بنویسید..." rows="1" required></textarea>
+        <button type="submit" class="send-button" id="send-button">
+          <span>ارسال</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // تنظیمات اولیه
+    let currentModel = "gpt-4o";
+    let OPENAI_API_KEY = localStorage.getItem("OPENAI_API_KEY") || "";
+    
+    // اگر API Key ذخیره نشده بود، از کاربر بخواهیم
+    if (!OPENAI_API_KEY) {
+      OPENAI_API_KEY = prompt("🔑 لطفاً OpenAI API Key خود را وارد کنید:");
+      if (OPENAI_API_KEY) {
+        localStorage.setItem("OPENAI_API_KEY", OPENAI_API_KEY);
+      } else {
+        alert("⚠️ بدون API Key نمی‌توانید از چت بات استفاده کنید!");
+      }
+    }
+    
+    // انتخاب مدل
+    const modelBtn = document.getElementById("model-btn");
+    const modelDropdown = document.getElementById("model-dropdown");
+    const currentModelDisplay = document.getElementById("current-model");
+    const modelOptions = document.querySelectorAll(".model-option");
+    
+    modelBtn.addEventListener("click", () => {
+      modelDropdown.classList.toggle("show");
+    });
+    
+    modelOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        // حذف کلاس active از همه گزینه‌ها
+        modelOptions.forEach(opt => opt.classList.remove("active"));
+        
+        // اضافه کردن کلاس active به گزینه انتخاب شده
+        option.classList.add("active");
+        
+        // به‌روزرسانی مدل جاری
+        currentModel = option.dataset.model;
+        currentModelDisplay.textContent = option.querySelector("span").textContent;
+        
+        // بستن منوی dropdown
+        modelDropdown.classList.remove("show");
+      });
+    });
+    
+    // بستن dropdown وقتی کاربر خارج از آن کلیک می‌کند
+    document.addEventListener("click", (e) => {
+      if (!modelBtn.contains(e.target) && !modelDropdown.contains(e.target)) {
+        modelDropdown.classList.remove("show");
+      }
+    });
+    
+    // ارسال پیام
+    const chatBox = document.getElementById("chat-box");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message || !OPENAI_API_KEY) return;
+      
+      // اضافه کردن پیام کاربر به چت
+      addMessage(message, "user");
+      userInput.value = "";
+      adjustTextareaHeight();
+      
+      // نمایش نشانگر تایپ
+      showTypingIndicator();
+      
+      try {
+        // ارسال درخواست به OpenAI
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${OPENAI_API_KEY}`
+          },
+          body: JSON.stringify({
+            model: currentModel,
+            messages: [
+              {
+                role: "system",
+                content: "You are DonutAI, a helpful AI assistant. Respond in the user's language."
+              },
+              {
+                role: "user",
+                content: message
+              }
+            ],
+            temperature: 0.7,
+            max_tokens: 1000
+          })
+        });
+        
+        const data = await response.json();
+        
+        // حذف نشانگر تایپ
+        removeTypingIndicator();
+        
+        // نمایش پاسخ AI
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          addMessage(data.choices[0].message.content, "bot");
+        } else {
+          addMessage("خطا در دریافت پاسخ از سرور.", "bot");
+        }
+      } catch (error) {
+        removeTypingIndicator();
+        addMessage("خطا در اتصال به سرور OpenAI.", "bot");
+      }
+    }
+    
+    // اضافه کردن پیام به چت
+    function addMessage(content, sender) {
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `message ${sender}`;
+      
+      if (sender === "bot") {
+        messageDiv.innerHTML = `
+          ${content}
+          <div class="bot-model-tag">
+            <i class="fas fa-microchip"></i>
+            <span>مدل: ${getModelName(currentModel)}</span>
+          </div>
+        `;
+      } else {
+        messageDiv.textContent = content;
+      }
+      
+      chatBox.appendChild(messageDiv);
+      scrollToBottom();
+    }
+    
+    // نمایش نشانگر تایپ
+    function showTypingIndicator() {
+      const typingDiv = document.createElement("div");
+      typingDiv.className = "message bot typing-indicator";
+      typingDiv.id = "typing-indicator";
+      typingDiv.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      `;
+      chatBox.appendChild(typingDiv);
+      scrollToBottom();
+    }
+    
+    // حذف نشانگر تایپ
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById("typing-indicator");
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+    
+    // اسکرول به پایین
+    function scrollToBottom() {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    
+    // تنظیم ارتفاع textarea بر اساس محتوا
+    function adjustTextareaHeight() {
+      userInput.style.height = "auto";
+      userInput.style.height = `${Math.min(userInput.scrollHeight, 150)}px`;
+    }
+    
+    // نام نمایشی مدل
+    function getModelName(modelId) {
+      switch(modelId) {
+        case "gpt-4o": return "GPT-4o";
+        case "gpt-4.1-mini": return "GPT-4.1 Mini";
+        case "gpt-3.5-turbo": return "GPT-3.5 Turbo";
+        default: return modelId;
+      }
+    }
+    
+    // رویدادهای کلیک و کیبورد
+    sendButton.addEventListener("click", sendMessage);
+    
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    
+    userInput.addEventListener("input", adjustTextareaHeight);
+    
+    // اسکرول اولیه به پایین
+    scrollToBottom();
+  </script>
+</body>
+</html>
