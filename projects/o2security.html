@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="O₂Security - A simple & secure library for managing tokens and secrets in your Python projects with AES-256 encryption.">
+  <meta name="keywords" content="python, security, tokens, secrets, encryption, aes, cli">
+  <meta name="author" content="Unknownmsv (Sina Mousavi)">
+  <title>🛡️ O₂Security | Cosmic Project</title>
+  <style>
+    :root {
+      --theme-primary: #88d8b0; /* Mint Green */
+      --theme-secondary: #88aaff; /* Tech Blue */
+      --theme-accent: #ffd580; /* Warm Amber */
+      --text-light: #e5e7eb;
+      --text-medium: #9ca3af;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "JetBrains Mono", monospace;
+      background: #000;
+      color: var(--text-light);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    #space-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .glass-panel {
+        background: rgba(10, 25, 15, 0.5);
+        border: 1px solid rgba(136, 216, 176, 0.2);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 16px;
+        padding: 1.5rem 2rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    h1 {
+      font-size: 2.8rem;
+      color: var(--theme-primary);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    h1 svg { width: 2.8rem; height: 2.8rem; }
+    h2 {
+      color: var(--theme-secondary);
+      margin: 1rem 0;
+      font-size: 1.8rem;
+      border-bottom: 1px solid rgba(136, 170, 255, 0.2);
+      padding-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    h2 svg { width: 1.8rem; height: 1.8rem; }
+    p, li { color: var(--text-medium); margin-bottom: 1rem; }
+    a { color: var(--theme-primary); text-decoration: none; transition: color 0.3s; }
+    a:hover { color: var(--theme-secondary); }
+    strong { color: var(--text-light); }
+    ul { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+    li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
+    li::before { content: "❖"; color: var(--theme-primary); position: absolute; left: 0; }
+    pre {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(136, 216, 176, 0.2);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      backdrop-filter: blur(5px);
+    }
+    code {
+      font-family: inherit;
+      color: var(--theme-accent);
+      background: rgba(255, 213, 128, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: bold;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+    .github-star-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-light);
+    }
+    .github-star-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    footer { text-align: center; margin-top: 3rem; padding: 1.5rem; color: var(--text-medium); font-size: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body>
+  <canvas id="space-canvas"></canvas>
+
+  <main>
+    <header>
+        <h1>
+            <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path></svg>
+            O₂Security
+        </h1>
+        <p><strong>A simple and secure library for managing tokens and sensitive data in Python projects.</strong></p>
+        <p>Created by <a href="https://github.com/unknownmsv">@unknownmsv</a></p>
+    </header>
+
+    <section class="glass-panel">
+      <h2><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M10.788 8.166a.25.25 0 0 1 .354.353l-2.354 2.354a.25.25 0 0 1-.353 0l-2.354-2.354a.25.25 0 1 1 .353-.353L8 10.293l2.788-2.127z"></path><path d="M10.788 4.166a.25.25 0 0 1 .354.353l-2.354 2.354a.25.25 0 0 1-.353 0L6.121 4.519a.25.25 0 1 1 .354-.354L8 5.793l2.788-2.128z"></path></svg> Features</h2>
+      <ul>
+        <li><strong>Military-grade encryption:</strong> All tokens encrypted with <strong>AES-256-GCM</strong></li>
+        <li><strong>Local management:</strong> Data securely stored in user's home directory</li>
+        <li><strong>Graphical dashboard:</strong> Web interface via <code>o2tokman</code> command</li>
+        <li><strong>Simple API:</strong> Clean Python interface for accessing tokens</li>
+        <li><strong>Open source:</strong> Free for the developer community</li>
+      </ul>
+    </section>
+    
+    <section class="glass-panel">
+      <h2><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L6.354 8.146a.5.5 0 1 0-.708.708l2 2z"></path></svg> Installation</h2>
+      <p>Install the latest stable version from PyPI:</p>
+      <pre><code>pip install o2security</code></pre>
+      <p>This will automatically install all dependencies.</p>
+    </section>
+
+    <section class="glass-panel">
+      <h2><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M6 3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 3zM2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"></path><path d="M6.854 5.146a.5.5 0 0 1 0 .708L5.707 7l1.147 1.146a.5.5 0 0 1-.708.708l-1.5-1.5a.5.5 0 0 1 0-.708l1.5-1.5a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L10.293 7l-1.147 1.146a.5.5 0 0 0 .708.708l1.5-1.5a.5.5 0 0 0 0-.708l-1.5-1.5a.5.5 0 0 0-.708 0z"></path></svg> Usage</h2>
+      <p><strong>1. Launch dashboard:</strong></p>
+      <pre><code>o2tokman</code></pre>
+      <p>Access the web interface at <code>http://localhost:5000</code></p>
+      
+      <p><strong>2. Python API:</strong></p>
+      <pre><code>from o2security import tokman
+
+# Project created in dashboard
+PROJECT_NAME = "my-discord-bot"
+
+try:
+    # Select project
+    tokman.select_project(PROJECT_NAME)
+
+    # Retrieve tokens
+    bot_token = tokman.get("DISCORD_TOKEN")
+    api_key = tokman.get("WEATHER_API_KEY")
+
+    print(f"Tokens loaded successfully!")
+
+except Exception as e:
+    print(f"Error: {e}")</code></pre>
+    </section>
+
+    <section class="glass-panel">
+        <h2><svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path></svg> Support</h2>
+        <p>If you like O₂Security, please star it on GitHub!</p>
+        <a href="https://github.com/unknownmsv/O2Security" target="_blank" class="btn github-star-btn">
+          <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+          Star on GitHub
+        </a>
+    </section>
+
+    <footer>
+      Made with ❤️ and 🐍 Python by donutMSV
+    </footer>
+  </main>
+  
+  <script>
+    // Canvas Animation Script (unchanged)
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [], blackHole, nebulas = [], sun, saturn, earth, mars, moon;
+        let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            sun = { x: canvas.width * 0.9, y: canvas.height * 0.1, radius: 60, parallax: 0.1 };
+            blackHole = { x: canvas.width / 2, y: canvas.height / 2, radius: 40, angle: 0, parallax: 0.05 };
+            saturn = { x: canvas.width * 0.15, y: canvas.height * 0.2, radius: 30, parallax: 0.08 };
+            earth = { x: canvas.width * 0.8, y: canvas.height * 0.8, radius: 25, parallax: 0.06 };
+            mars = { x: canvas.width * 0.2, y: canvas.height * 0.75, radius: 20, parallax: 0.07 };
+            moon = { orbitRadius: 45, angle: 0, parallax: 0.06 };
+            stars = []; const starCount = window.innerWidth > 768 ? 500 : 250;
+            for (let i = 0; i < starCount; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.5, alpha: Math.random() * 0.5 + 0.5, twinkle: Math.random() * 0.02, parallax: Math.random() * 0.04 + 0.01 }); }
+            nebulas = [];
+            for(let i = 0; i < 3; i++) { nebulas.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 200 + 150, color: `rgba(${100 + Math.random() * 50}, ${50 + Math.random() * 50}, ${150 + Math.random() * 50}, 0.1)`, speedX: (Math.random() - 0.5) * 0.1, speedY: (Math.random() - 0.5) * 0.1 }); }
+        }
+        function drawSun(x, y) { ctx.save(); ctx.translate(x, y); const g = ctx.createRadialGradient(0, 0, sun.radius * 0.8, 0, 0, sun.radius * 2.5); g.addColorStop(0, 'rgba(255, 255, 220, 1)'); g.addColorStop(0.2, 'rgba(255, 220, 100, 0.5)'); g.addColorStop(0.5, 'rgba(255, 180, 50, 0.1)'); g.addColorStop(1, 'rgba(255, 150, 0, 0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, sun.radius * 2.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+        function drawSaturn(x, y) { ctx.save(); ctx.translate(x,y); ctx.strokeStyle='rgba(210,180,140,0.7)'; ctx.lineWidth=4; ctx.beginPath(); ctx.ellipse(0,0,saturn.radius*2.2,saturn.radius*0.8,-0.4,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='#E3B971'; ctx.beginPath(); ctx.arc(0,0,saturn.radius,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+        function drawEarth(x, y) { ctx.save(); ctx.translate(x,y); const g=ctx.createRadialGradient(0,0,earth.radius,0,0,earth.radius*1.5); g.addColorStop(0,'rgba(100,150,255,0.3)'); g.addColorStop(1,'rgba(100,150,255,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,earth.radius*1.5,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#4D94DB'; ctx.beginPath(); ctx.arc(0,0,earth.radius,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.beginPath(); ctx.ellipse(-5,-10,20,8,0.5,0,Math.PI*2); ctx.ellipse(10,5,18,6,-0.3,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+        function drawMars(x, y) { ctx.save(); ctx.translate(x, y); ctx.fillStyle = '#C1440E'; ctx.beginPath(); ctx.arc(0, 0, mars.radius, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'; ctx.beginPath(); ctx.arc(0, -mars.radius + 3, 5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+        function drawMoon(x, y) { ctx.save(); ctx.translate(x, y); ctx.fillStyle = '#B0B0B0'; ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const pX = (mouse.x - canvas.width / 2) * 0.5, pY = (mouse.y - canvas.height / 2) * 0.5;
+            nebulas.forEach(n => { n.x += n.speedX; n.y += n.speedY; if(n.x+n.radius<0) n.x=canvas.width+n.radius; if(n.x-n.radius>canvas.width) n.x=-n.radius; if(n.y+n.radius<0) n.y=canvas.height+n.radius; if(n.y-n.radius>canvas.height) n.y=-n.radius; const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.radius); g.addColorStop(0,n.color); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,canvas.width,canvas.height); });
+            stars.forEach(s => { const sx=s.x+pX*s.parallax, sy=s.y+pY*s.parallax; s.alpha+=s.twinkle; if(s.alpha>1||s.alpha<0.5) s.twinkle=-s.twinkle; ctx.globalAlpha=s.alpha; ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(sx,sy,s.radius,0,Math.PI*2); ctx.fill(); });
+            ctx.globalAlpha = 1;
+            const sunX = sun.x+pX*sun.parallax, sunY = sun.y+pY*sun.parallax;
+            const saturnX = saturn.x+pX*saturn.parallax, saturnY = saturn.y+pY*saturn.parallax;
+            const earthX = earth.x+pX*earth.parallax, earthY = earth.y+pY*earth.parallax;
+            const marsX = mars.x+pX*mars.parallax, marsY = mars.y+pY*mars.parallax;
+            const bhX = blackHole.x+pX*blackHole.parallax, bhY = blackHole.y+pY*blackHole.parallax;
+            moon.angle += 0.01;
+            const moonX = earthX + moon.orbitRadius * Math.cos(moon.angle), moonY = earthY + moon.orbitRadius * Math.sin(moon.angle);
+            drawSun(sunX, sunY); drawSaturn(saturnX, saturnY); drawMars(marsX, marsY); drawEarth(earthX, earthY); drawMoon(moonX, moonY);
+            ctx.save(); ctx.translate(bhX, bhY);
+            ctx.fillStyle='black'; ctx.beginPath(); ctx.arc(0,0,blackHole.radius,0,Math.PI*2); ctx.fill();
+            ctx.rotate(blackHole.angle); const dG=ctx.createLinearGradient(-blackHole.radius*2.5,0,blackHole.radius*2.5,0); dG.addColorStop(0,'rgba(255,200,0,0.8)'); dG.addColorStop(0.5,'rgba(160,60,255,0.9)'); dG.addColorStop(1,'rgba(255,200,0,0.8)');
+            ctx.strokeStyle=dG; ctx.lineWidth=3; ctx.shadowColor='rgba(160,60,255,0.7)'; ctx.shadowBlur=15;
+            ctx.beginPath(); ctx.ellipse(0,0,blackHole.radius*2,blackHole.radius*0.7,0,0,Math.PI*2); ctx.stroke();
+            ctx.lineWidth=1.5; ctx.shadowBlur=5; ctx.beginPath(); ctx.ellipse(0,0,blackHole.radius*1.5,blackHole.radius*0.5,0,0,Math.PI*2); ctx.stroke();
+            ctx.restore(); blackHole.angle += 0.003;
+            requestAnimationFrame(draw);
+        }
+        window.addEventListener('resize', init);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        init();
+        draw();
+    });
+  </script>
+</body>
+</html>
